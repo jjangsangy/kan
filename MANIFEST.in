@@ -1,7 +1,7 @@
 recursive-include kan *.py
 include *.rst
 include *.md
-include LICENSE
+include LICENSE.md
 include Makefile
 include requirements.txt
 prune docs
