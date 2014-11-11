@@ -1,6 +1,8 @@
 (看) Kan: To Read
 =================
 
+|Build Status| |GitHub version| |PyPI version|
+
 Kan is book search utility so you spend less time searching and more
 time reading.
 
@@ -33,3 +35,9 @@ Use ``setup.py`` to install
     # For Python 3.x
     $ python3 setup.py install
 
+.. |Build Status| image:: https://travis-ci.org/jjangsangy/kan.svg?branch=master
+   :target: https://travis-ci.org/jjangsangy/kan
+.. |GitHub version| image:: https://badge.fury.io/gh/jjangsangy%2Fkan.svg
+   :target: http://badge.fury.io/gh/jjangsangy%2Fkan
+.. |PyPI version| image:: https://badge.fury.io/py/kan.svg
+   :target: http://badge.fury.io/py/kan

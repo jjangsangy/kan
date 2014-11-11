@@ -1,5 +1,6 @@
 (看) Kan: To Read
 ==================
+[![Build Status](https://travis-ci.org/jjangsangy/kan.svg?branch=master)](https://travis-ci.org/jjangsangy/kan) [![GitHub version](https://badge.fury.io/gh/jjangsangy%2Fkan.svg)](http://badge.fury.io/gh/jjangsangy%2Fkan) [![PyPI version](https://badge.fury.io/py/kan.svg)](http://badge.fury.io/py/kan)
 
 Kan is book search utility so you spend less time searching and more time reading.
 
