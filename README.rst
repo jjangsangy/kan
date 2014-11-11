@@ -12,7 +12,7 @@ Install from PyPi
 
 .. code:: sh
 
-    $ pip install -r requirements.txt && pip install kan
+    $ pip install kan
 
 From Source
 -----------

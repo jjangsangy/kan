@@ -8,7 +8,7 @@ Kan is book search utility so you spend less time searching and more time readin
 ## Install from PyPi
 
 ```sh
-$ pip install -r requirements.txt && pip install kan
+$ pip install kan
 ```
 
 ## From Source
