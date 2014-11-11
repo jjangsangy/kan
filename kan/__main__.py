@@ -15,6 +15,10 @@ __all__ = (
 )
 
 def command_line():
+    '''
+    Parses users command line arguments and returns the namespace
+    containing parsed values.
+    '''
     description = 'Kan helps you find the book'
     version = ' '.join([__version__, __release__])
     parser  = ArgumentParser(prog='kan', description=description)
@@ -25,13 +29,28 @@ def command_line():
     parser.add_argument(
         '--author',
         default=None,
-        help='Book Author',
+        metavar='name',
+        help='Name of the author',
+    )
+    parser.add_argument(
+        '--max',
+        type=int,
+        metavar='n',
+        default=10,
+        choices=range(41),
+        help='Maximum results to get per query: default=10, max=40',
+    )
+    parser.add_argument(
+        '--language',
+        type=str,
+        metavar='code',
+        default='en',
+        help='Restrict the search results to those with a certain language code',
     )
     parser.add_argument(
         'title',
         help='The title of a book',
     )
-
     args = parser.parse_args()
 
     return args
@@ -39,10 +58,19 @@ def command_line():
 
 def main():
     """
-    Ad Hoc Argument Parser
+    Main program entry point
     """
-    parse = command_line()
-    book = Book(parse.title, parse.author)
+    args = command_line()
+
+    # TODO: Decouple Book interface and implementation
+    book = Book(args.title, args.author, args.max, args.language)
+
+    # Temporary Display Inteface
     results = book.json()['items']
     for item in results:
-        print(item['volumeInfo']['title'])
+        info = item['volumeInfo']
+        display = 'Title: {title}\nAuthor: {authors}\n'.format(
+            title=info['title'],
+            authors=', '.join(info.get('authors', ['N/A']))
+        )
+        print(display)

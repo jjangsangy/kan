@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 from abc import abstractmethod, ABCMeta
 from contextlib import contextmanager
 
@@ -19,12 +21,10 @@ class AbstractBaseAPIClient:
     """
     AbstractBaseAPIClient that specifies the abstractmethods
     necessary to propertly be handled.
-    Unlike Java's abstract methods or C++'s pure abstract methods,
-    abstract methods as defined here may have an implementation.
-    In addition, the ABCs define a minimal set of methods that establish
-    the characteristic behavior of the type.
+    The AbstractBaseClass defines a minimal set of methods that establish
+    the characteristic behavior for the APIClient.
 
-    Code that discriminates objects based on their ABC type can trust that
+    Code that discriminates based on Abstract methods can trust that
     those methods will always be present.
     """
     __metaclass__ = ABCMeta
@@ -43,12 +43,18 @@ class GoogleBookAPIClient(AbstractBaseAPIClient):
     :return self: **GoogleBookAPIClient<self>**
     """
 
-    def __init__(self, title, author=None):
+    def __init__(self, title, author=None, max_results=10, lang='en'):
         """
         :param title: str
+
+        :param author: str
+        :param max_results: int
+        :param lang: str
         """
         self.title = title
         self.author = author
+        self.max_results = max_results
+        self.lang = lang
 
     @property
     def url(self):
@@ -58,10 +64,10 @@ class GoogleBookAPIClient(AbstractBaseAPIClient):
             query = ' '.join([query, ':'.join(['inauthor', self.author])])
         params = urlencode({
             'q': query,
-            'maxResults': 10,
+            'maxResults': self.max_results,
+            'langRestrict': self.lang,
             })
-        url = '?'.join([base, params])
-        return url
+        return '?'.join([base, params])
 
     @contextmanager
     def connect(self):
@@ -92,3 +98,10 @@ class GoogleBookAPIClient(AbstractBaseAPIClient):
                 raise IOError
             request_stream = request.read().decode('utf-8')
         return request_stream
+
+    def json(self):
+        """
+        :return dict: json
+        """
+        raw_text = self.reader()
+        return json.loads(raw_text)
