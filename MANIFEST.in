@@ -1,0 +1,8 @@
+recursive-include kan *.py
+include *.rst
+include *.md
+include LICENSE
+include Makefile
+include requirements.txt
+prune docs
+prune img
