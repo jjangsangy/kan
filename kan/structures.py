@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
 
-from abc import abstractmethod, ABCMeta
+from abc import abstractmethod, ABCMeta, abstractproperty
 from contextlib import contextmanager
 
 try:
-    from urllib.request import urlopen, Request, quote
+    from urllib.request import urlopen, Request
     from urllib.parse import urlencode
 except ImportError:
-    from urllib2 import urlopen, Request, quote
+    from urllib2 import urlopen, Request
     from urllib import urlencode
 
 
@@ -28,12 +28,31 @@ class AbstractBaseAPIClient:
     those methods will always be present.
     """
     __metaclass__ = ABCMeta
+
+    @abstractproperty
+    def url(self):
+        """
+        Routes to proper destination URL and proper encoding schemes.
+
+        :return url: str
+        """
+        return
+
     @abstractmethod
-    def connect():
-        pass
+    def connect(self):
+        """
+        Makes connection to the backend API and handles any exceptions.
+        """
+        return
+
     @abstractmethod
-    def reader():
-        pass
+    def reader(self):
+        """
+        Reads content.
+
+        :return text: str
+        """
+        return
 
 class GoogleBookAPIClient(AbstractBaseAPIClient):
     """
