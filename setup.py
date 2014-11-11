@@ -36,7 +36,7 @@ setup(
     author_email='jjangsangy@gmail.com',
     include_package_data=True,
     packages=['kan'],
-    version=' '.join([kan.__version__,kan.__release__]),
+    version='-'.join([kan.__version__,kan.__release__]),
     tests_require=['nose'],
     entry_points={
         'console_scripts': [
