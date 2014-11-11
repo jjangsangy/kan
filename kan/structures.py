@@ -9,9 +9,8 @@ try:
     from urllib.parse import urlencode
     from urllib.error import HTTPError
 except ImportError:
-    from urllib2 import urlopen, Request
+    from urllib2 import urlopen, Request, HTTPError
     from urllib import urlencode
-    from urllib.error import HTTPError
 
 
 __all__ = [
