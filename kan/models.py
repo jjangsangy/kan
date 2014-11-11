@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from .structures import GoogleBookAPIClient
+from .structures import GoogleBooksAPIClient
 
 __all__ = [
     'Book',
 ]
 
-class Book(GoogleBookAPIClient):
+class Book(GoogleBooksAPIClient):
     """
     Handles HTTP request for book.
     """

@@ -9,7 +9,7 @@ from .models import *
 
 __all__ = (
     'AbstractBaseAPIClient',
-    'GoogleBookAPIClient',
+    'GoogleBooksAPIClient',
     'Book',
     'main',
 )
@@ -68,9 +68,21 @@ def main():
     # Temporary Display Inteface
     results = book.json()['items']
     for item in results:
+
         info = item['volumeInfo']
-        display = 'Title: {title}\nAuthor: {authors}\n'.format(
+
+        # Resolve ISBN
+        if info.get('industryIdentifiers', None):
+            identifier = info.get('industryIdentifiers')[0]
+            isbn_id, isbn = identifier.get('type'), identifier.get('identifier')
+        else:
+            isbn_id, isbn = 'ISBN', 'N/A'
+
+        # Format/Print
+        display = 'Title: {title}\nAuthor: {authors}\n{isbn_id}: {isbn}\n'.format(
             title=info['title'],
-            authors=', '.join(info.get('authors', ['N/A']))
+            authors=', '.join(info.get('authors', ['N/A'])),
+            isbn_id=isbn_id,
+            isbn=isbn,
         )
         print(display)

@@ -7,15 +7,18 @@ from contextlib import contextmanager
 try:
     from urllib.request import urlopen, Request
     from urllib.parse import urlencode
+    from urllib.error import HTTPError
 except ImportError:
     from urllib2 import urlopen, Request
     from urllib import urlencode
+    from urllib.error import HTTPError
 
 
 __all__ = [
     'AbstractBaseAPIClient',
-    'GoogleBookAPIClient',
+    'GoogleBooksAPIClient',
 ]
+
 
 class AbstractBaseAPIClient:
     """
@@ -54,42 +57,56 @@ class AbstractBaseAPIClient:
         """
         return
 
-class GoogleBookAPIClient(AbstractBaseAPIClient):
+
+class GoogleBooksAPIClient(AbstractBaseAPIClient):
     """
     Implements the AbstractBaseAPIClient and talks to the google books
     api for querying and finding books.
 
-    :return self: **GoogleBookAPIClient<self>**
+    :return self: **GoogleBooksAPIClient<self>**
     """
 
-    def __init__(self, title, author=None, max_results=10, lang='en'):
+    def __init__(self, title,
+                 author=None,
+                 max_results=10,
+                 start_index=1,
+                 language_code='en'
+                 ):
         """
         :param title: str
 
         :param author: str
         :param max_results: int
+        :param start_index: int
         :param lang: str
         """
         self.title = title
         self.author = author
         self.max_results = max_results
-        self.lang = lang
+        self.start_index = start_index
+        self.language_code = language_code
 
     @property
     def url(self):
         base = r'https://www.googleapis.com/books/v1/volumes'
         query = r'"{title}"'.format(title=self.title)
+
+        # API parameterizes author within query string.
         if self.author:
-            query = ' '.join([query, ':'.join(['inauthor', self.author])])
+            authors = ':'.join(['inauthor', self.author])
+            query = ' '.join([query, authors])
+
+        # Encode Parameters
         params = urlencode({
             'q': query,
             'maxResults': self.max_results,
-            'langRestrict': self.lang,
-            })
+            'langRestrict': self.language_code,
+        })
+
         return '?'.join([base, params])
 
     @contextmanager
-    def connect(self):
+    def connect(self, agent='Python'):
         """
         Context manager for HTTP Connection state and ensures proper handling
         of network sockets, sends a GET request.
@@ -99,7 +116,7 @@ class GoogleBookAPIClient(AbstractBaseAPIClient):
         :yield request: FileIO<Socket>
         """
         try:
-            headers = {'User-Agent': 'Python'}
+            headers = {'User-Agent': agent}
             request = urlopen(Request(self.url, headers=headers))
             yield request
         finally:
@@ -114,7 +131,7 @@ class GoogleBookAPIClient(AbstractBaseAPIClient):
         """
         with self.connect() as request:
             if request.msg != 'OK':
-                raise IOError
+                raise HTTPError
             request_stream = request.read().decode('utf-8')
         return request_stream
 
