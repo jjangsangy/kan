@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 import json
 import sys
@@ -8,7 +8,8 @@ from functools import wraps
 from collections import namedtuple
 from contextlib import contextmanager
 from abc import abstractmethod, ABCMeta
-
+from argparse import ArgumentParser
+from os.path import basename
 
 try:
     from urllib.request import urlopen, Request, quote
@@ -16,6 +17,8 @@ try:
 except ImportError:
     from urllib2 import urlopen, Request, quote
     from urllib import urlencode
+
+from .__version__ import __version__, __release__
 
 __all__ = (
     'AbstractBaseAPIClient',
@@ -44,7 +47,7 @@ class AbstractBaseAPIClient:
     def reader():
         pass
 
-class GoogleBookAPIClient:
+class GoogleBookAPIClient(AbstractBaseAPIClient):
     """
     Implements the AbstractBaseAPIClient and talks to the google books
     api for querying and finding books.
@@ -116,7 +119,7 @@ class Book:
         """
         self.title = title
         self.header = header
-        self.delegate = GoogleBookAPIClient(title)
+        self.implementation = GoogleBookAPIClient(title)
 
     def __repr__(self):
         return self.title
@@ -125,17 +128,34 @@ class Book:
         """
         :return dict: json
         """
-        raw_text = self.delegate.reader()
+        raw_text = self.implementation.reader()
         return json.loads(raw_text)
 
+def command_line():
+    description = 'Kan helps you find the book'
+    version = ' '.join([__version__, __release__])
+    parser  = ArgumentParser(
+        prog='kan',
+        description=description,
+    )
+    parser.add_argument(
+        '-v', '--version', action='version',
+        version="%s v%s" % (basename(sys.argv[0]), version)
+    )
+    parser.add_argument(
+        'title',
+        help='The title of a book',
+    )
 
-def main(title):
+    args = parser.parse_args()
+
+    return args
+
+
+def main():
     """
-    Main function
-
-    :TODO: Work on argument parsing
+    Ad Hoc Argument Parser
     """
-    print('Hello')
-
-if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    parse = command_line()
+    book = Book(parse.title)
+    return book.json()['items'][0]['volumeInfo']

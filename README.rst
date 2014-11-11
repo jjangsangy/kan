@@ -1,7 +1,7 @@
 (看) Kan: To Read
 =================
 
-|Build Status| |GitHub version| |PyPI version|
+|Build Status| |GitHub version| |PyPI version| |Documentation Status|
 
 Kan is book search utility so you spend less time searching and more
 time reading.
@@ -41,3 +41,5 @@ Use ``setup.py`` to install
    :target: http://badge.fury.io/gh/jjangsangy%2Fkan
 .. |PyPI version| image:: https://badge.fury.io/py/kan.svg
    :target: http://badge.fury.io/py/kan
+.. |Documentation Status| image:: https://readthedocs.org/projects/kan/badge/?version=latest
+   :target: https://readthedocs.org/projects/kan/?badge=latest
