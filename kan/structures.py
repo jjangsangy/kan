@@ -66,8 +66,8 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
     """
 
     def __init__(self,
-        title,
-        author=None,
+        title='',
+        author='',
         max_results=10,
         start_index=0,
         language_code=''
@@ -88,12 +88,12 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
     @property
     def url(self):
         base = r'https://www.googleapis.com/books/v1/volumes'
-        query = r'"{title}"'.format(title=self.title)
-
-        # API parametrizes author within query string.
+        query = r''
+        if self.title:
+            query = '"{0}"'.format(':'.join(['intitle', self.title]))
         if self.author:
-            authors = ':'.join(['inauthor', self.author])
-            query = ' '.join([query, authors])
+            authors = '"{0}"'.format(':'.join(['inauthor', self.author]))
+            query = '+'.join([query, authors]).strip('+')
 
         # Encode Parameters
         params = urlencode(
@@ -115,6 +115,7 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
 
         :yield request: FileIO<Socket>
         """
+        print(self.url)
         headers = {'User-Agent': agent}
         request = urlopen(Request(self.url, headers=headers))
         try:

@@ -53,12 +53,18 @@ def command_line():
         help='Name of the author',
     )
     parser.add_argument(
+        '--subject',
+        type=str,
+        help='Specify subject matter by category',
+        metavar='topic',
+    )
+    parser.add_argument(
         '--max',
         type=int,
         metavar='n',
-        default=10,
+        default=3,
         choices=range(41),
-        help='Maximum results to get per query: default=10, max=40',
+        help='Maximum results to get per query: default=3, max=40',
     )
     parser.add_argument(
         '--language',

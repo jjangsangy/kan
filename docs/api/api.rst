@@ -32,7 +32,7 @@ multiple-inheritance.
 Implementations
 ===============
 
-.. autoclass:: kan.GooglesBookAPIClient
+.. autoclass:: kan.GoogleBooksAPIClient
     :members:
 
 =========
