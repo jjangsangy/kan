@@ -65,19 +65,19 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
     :return self: **GoogleBooksAPIClient<self>**
     """
 
-    def __init__(self, title,
-                 author=None,
-                 max_results=10,
-                 start_index=1,
-                 language_code='en'
-                 ):
+    def __init__(self,
+        title,
+        author=None,
+        max_results=10,
+        start_index=0,
+        language_code=''
+    ):
         """
         :param title: str
-
         :param author: str
         :param max_results: int
         :param start_index: int
-        :param lang: str
+        :param language_code: str
         """
         self.title = title
         self.author = author
@@ -90,18 +90,19 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
         base = r'https://www.googleapis.com/books/v1/volumes'
         query = r'"{title}"'.format(title=self.title)
 
-        # API parameterizes author within query string.
+        # API parametrizes author within query string.
         if self.author:
             authors = ':'.join(['inauthor', self.author])
             query = ' '.join([query, authors])
 
         # Encode Parameters
-        params = urlencode({
+        params = urlencode(
+        {
             'q': query,
+            'startIndex': self.start_index,
             'maxResults': self.max_results,
             'langRestrict': self.language_code,
         })
-
         return '?'.join([base, params])
 
     @contextmanager
@@ -114,9 +115,9 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
 
         :yield request: FileIO<Socket>
         """
+        headers = {'User-Agent': agent}
+        request = urlopen(Request(self.url, headers=headers))
         try:
-            headers = {'User-Agent': agent}
-            request = urlopen(Request(self.url, headers=headers))
             yield request
         finally:
             request.close()
@@ -134,9 +135,14 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
             request_stream = request.read().decode('utf-8')
         return request_stream
 
+    @property
     def json(self):
         """
+        Serializes json text stream into python dictionary.
+
         :return dict: json
         """
-        raw_text = self.reader()
-        return json.loads(raw_text)
+        _json = json.loads(self.reader())
+        if _json.get('error', None):
+            raise HTTPError(_json['error']['errors'])
+        return _json

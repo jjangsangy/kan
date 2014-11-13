@@ -44,16 +44,15 @@ def command_line():
         '--language',
         type=str,
         metavar='code',
-        default='en',
+        default='',
         help='Restrict the search results to those with a certain language code',
     )
     parser.add_argument(
         'title',
         help='The title of a book',
     )
-    args = parser.parse_args()
 
-    return args
+    return parser.parse_args()
 
 
 def main():
@@ -63,10 +62,15 @@ def main():
     args = command_line()
 
     # TODO: Decouple Book interface and implementation
-    book = Book(args.title, args.author, args.max, args.language)
+    book = Book(
+        title=args.title,
+        author=args.author,
+        max_results=args.max,
+        language_code=args.language,
+    )
 
     # Temporary Display Inteface
-    results = book.json()['items']
+    results = book.json['items']
     for item in results:
 
         info = item['volumeInfo']
