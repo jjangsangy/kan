@@ -26,6 +26,26 @@ def command_line():
         '-v', '--version', action='version',
         version="%s v%s" % ('kan', version),
     )
+
+    subparser = parser.add_subparsers(help='Search by')
+
+    bytitle = subparser.add_parser('title', help='Book title',)
+    bytitle.add_argument('title', help='Book name')
+
+    byisbn = subparser.add_parser('isbn', help='ISBN code')
+    byisbn.add_argument('code', help='Valid ISBN code')
+
+    byauthor = subparser.add_parser('author', help='Book author')
+    byauthor.add_argument('author', help='Authors name')
+    byauthor.add_argument('--recent', help='Search by most recent', action='store_true')
+    byauthor.add_argument('--top', help='Search by best selling', action='store_true')
+
+    # Main Parser
+    parser.add_argument(
+        '--title',
+        help='Title of the book',
+        metavar='name',
+    )
     parser.add_argument(
         '--author',
         default=None,
@@ -47,11 +67,6 @@ def command_line():
         default='',
         help='Restrict the search results to those with a certain language code',
     )
-    parser.add_argument(
-        'title',
-        help='The title of a book',
-    )
-
     return parser.parse_args()
 
 
@@ -61,6 +76,7 @@ def main():
     """
     args = command_line()
 
+    print(args)
     # TODO: Decouple Book interface and implementation
     book = Book(
         title=args.title,
