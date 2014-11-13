@@ -31,6 +31,11 @@ $ python3 setup.py install
 
 ## Usage
 
+```sh
+# Print Out Help Instructions
+$ kan -h
+```
+
 ```
 Usage: kan [-h] [-v] [--title name] [--author name] [--max n]
            [--subject topic] [--language code]
@@ -78,46 +83,26 @@ ISBN: N/A
 Search more generally and tweak your search parameters.
 
 ```sh
-$ kan  --max 10 author 'J. K. Rowling' --top
+$ kan --language ko --max 5 author 'J. K. Rowling' --top
 ```
 ```
-Title: Harry Potter
-Author: J. K. Rowling
-ISBN_10: 0439282799
+Title: 해리포터와마법사의돌
+Author: J. K. Rowling, 김혜원
+OTHER: OCLC:226262132
 
-Title: The Cuckoo's Calling
-Author: Robert Galbraith, J. K. Rowling
-ISBN_13: 9780316206860
+Title: 해리포터와혼혈왕자
+Author: J. K. Rowling, 최인자
+OTHER: OCLC:226262119
 
-Title: The Casual Vacancy
-Author: J. K. Rowling
-ISBN_13: 9780316228558
+Title: 해리포터와비밀의방
+Author: J. K. Rowling, 김혜원
+OTHER: OCLC:226262164
 
-Title: The Complete Harry Potter Collection
-Author: J. K. Rowling
-ISBN_10: 0747595852
+Title: 해리포터와불의잔
+Author: 조앤 K. 롤링, 김혜원
+ISBN_10: 8983920955
 
-Title: Harry Potter and the Chamber of Secrets
-Author: Scholastic Inc.
-ISBN_10: 0439425212
-
-Title: Harry Potter and the Philosopher's Stone
-Author: J. K. Rowling
-ISBN_13: 9781408855652
-
-Title: Harry Potter and the Order of the Phoenix
-Author: J. K. Rowling
-ISBN_13: 9781408855690
-
-Title: Harry Potter and the Half-Blood Prince
-Author: J. K. Rowling
-ISBN_13: 9781408855942
-
-Title: Harry Potter and the Chamber of Secrets
-Author: J. K. Rowling
-ISBN_13: 9781408855904
-
-Title: Harry Potter and the Prisoner of Azkaban
-Author: J. K. Rowling, B. B. C. Staff
-ISBN_10: 0563492635
+Title: 해리포터와죽음의성물
+Author: J. K. Rowling, 최인자
+ISBN_10: 898392067X
 ```
