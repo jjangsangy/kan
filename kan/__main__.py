@@ -82,27 +82,33 @@ def main():
     """
     args = command_line()
 
-    print(args)
     # TODO: Decouple Book interface and implementation
-    book = Book(
+    query = Book(
         title=args.title,
         author=args.author,
         max_results=args.max,
         language_code=args.language,
     )
 
-    # Temporary Display Inteface
-    results = book.json['items']
-    for item in results:
+    # Temporary Display Interface
+    books = query.json.get('items', None)
+    if not books:
+        raise AttributeError('Web Request Failed')
 
-        info = item['volumeInfo']
+    for book in books:
+        info = book['volumeInfo']
 
-        # Resolve ISBN
-        if info.get('industryIdentifiers', None):
-            identifier = info.get('industryIdentifiers')[0]
-            isbn_id, isbn = identifier.get('type'), identifier.get('identifier')
+        if 'industryIdentifiers' in info:
+            identifiers = dict([(ref['type'], ref['identifier']) for ref in info['industryIdentifiers']])
+
+            if 'ISBN_13' in identifiers:
+                isbn_id, isbn = 'ISBN_13', identifiers['ISBN_13']
+
+            else:
+                isbn_id, isbn = identifiers.popitem()
+
         else:
-            isbn_id, isbn = 'ISBN', 'N/A'
+            isbn_id, isbn = 'ISBN_##', 'N/A'
 
         # Format/Print
         display = 'Title: {title}\nAuthor: {authors}\n{isbn_id}: {isbn}\n'.format(

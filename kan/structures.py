@@ -89,6 +89,7 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
     def url(self):
         base = r'https://www.googleapis.com/books/v1/volumes'
         query = r''
+
         if self.title:
             query = '"{0}"'.format(':'.join(['intitle', self.title]))
         if self.author:
@@ -96,11 +97,10 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
             query = '+'.join([query, authors]).strip('+')
 
         # Encode Parameters
-        params = urlencode(
-        {
-            'q': query,
-            'startIndex': self.start_index,
-            'maxResults': self.max_results,
+        params = urlencode({
+                       'q': query,
+              'startIndex': self.start_index,
+              'maxResults': self.max_results,
             'langRestrict': self.language_code,
         })
         return '?'.join([base, params])
@@ -115,7 +115,6 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
 
         :yield request: FileIO<Socket>
         """
-        print(self.url)
         headers = {'User-Agent': agent}
         request = urlopen(Request(self.url, headers=headers))
         try:
@@ -123,6 +122,7 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
         finally:
             request.close()
 
+    @property
     def reader(self):
         """
         Reads raw text from the connection stream.
@@ -130,6 +130,7 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
 
         :return bytes: request
         """
+        request_stream = ''
         with self.connect() as request:
             if request.msg != 'OK':
                 raise HTTPError
@@ -143,7 +144,7 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
 
         :return dict: json
         """
-        _json = json.loads(self.reader())
+        _json = json.loads(self.reader)
         if _json.get('error', None):
             raise HTTPError(_json['error']['errors'])
         return _json

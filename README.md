@@ -29,7 +29,7 @@ $ python setup.py install
 $ python3 setup.py install
 ```
 
-## Usage
+# Usage
 
 ```sh
 # Print Out Help Instructions
