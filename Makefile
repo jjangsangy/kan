@@ -10,17 +10,16 @@ rst:
 	pandoc --from=markdown_github --to=rst README.md -o README.rst
 
 build:
-	python setup.py build
+	python3 setup.py build
 
 dist:
-	python setup.py sdist
+	python3 setup.py sdist
 
 wheel:
-	python setup.py bdist_wheel
+	python3 setup.py bdist_wheel
 
 install:
-	pip2 install kan
-	pip3 install kan
+	pip3 install -e .
 
 uninstall:
 	pip3 uninstall kan
@@ -28,8 +27,8 @@ uninstall:
 
 publish:
 	pandoc --from=markdown_github --to=rst README.md -o README.rst
-	python setup.py sdist upload -r pypi
-	python setup.py bdist_wheel upload -r pypi
+	python3 setup.py sdist upload -r pypi
+	python3 setup.py bdist_wheel upload -r pypi
 
 clean:
 	rm -rf kan/*.pyc
