@@ -36,7 +36,7 @@ Implementations
     :members:
 
 =========
-Protocols
+Models
 =========
 
 
@@ -44,8 +44,9 @@ Protocols
     :members:
 
 
-=========
-Functions
-=========
+==========
+Front End
+==========
 
 .. autofunction:: kan.main
+.. autofunction:: kan.command_line

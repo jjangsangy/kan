@@ -12,6 +12,7 @@ __all__ = (
     'GoogleBooksAPIClient',
     'Book',
     'main',
+    'command_line',
 )
 
 def command_line():
