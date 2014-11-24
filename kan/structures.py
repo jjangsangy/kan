@@ -70,20 +70,23 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
         author='',
         max_results=10,
         start_index=0,
-        language_code=''
+        language_code='',
+        fields=('authors', 'title', 'industryIdentifiers'),
     ):
         """
-        :param title: str
-        :param author: str
-        :param max_results: int
-        :param start_index: int
-        :param language_code: str
+        :param: title: str
+        :param: author: str
+        :param: max_results: int
+        :param: start_index: int
+        :param: language_code: str
+        :param: fields: tuple
         """
         self.title = title
         self.author = author
         self.max_results = max_results
         self.start_index = start_index
         self.language_code = language_code
+        self.fields = fields
 
     @property
     def url(self):
@@ -103,7 +106,13 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
               'maxResults': self.max_results,
             'langRestrict': self.language_code,
         })
-        return '?'.join([base, params])
+
+        fieldstring = 'fields={prefix}({fields})'.format(
+            prefix='/'.join(['items', 'volumeInfo']),
+            fields=','.join(self.fields),
+        )
+
+        return '&'.join(['?'.join([base, params]), fieldstring])
 
     @contextmanager
     def connect(self, agent='Python'):
