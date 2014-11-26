@@ -74,6 +74,12 @@ def command_line():
         default='',
         help='Restrict the search results to those with a certain language code',
     )
+    parser.add_argument(
+        '--verbose',
+        action='store_true',
+        help='Print out debug information',
+    )
+
     return parser.parse_args()
 
 
@@ -90,6 +96,9 @@ def main():
         max_results=args.max,
         language_code=args.language,
     )
+
+    if args.verbose:
+        print('Request URL:\n',query.url, '\n')
 
     # Temporary Display Interface
     books = query.json.get('items', None)

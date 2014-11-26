@@ -7,8 +7,14 @@ __all__ = [
 
 class Book(GoogleBooksAPIClient):
     """
-    Handles HTTP request for book.
+    Front end user model
+
+    :param title: str
+    :param author: str
+    :param max_results: int
+    :param start_index: int
+    :param language_code: str
+    :param fields: tuple
     """
 
-    # TODO: Handle display operations here rather than in main
     _header = ('title', 'authors', 'imageLinks', 'categories', 'description')

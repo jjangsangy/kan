@@ -47,7 +47,7 @@ class AbstractBaseAPIClient:
         """
         return
 
-    @abstractmethod
+    @abstractproperty
     def reader(self):
         """
         Reads content.
@@ -62,7 +62,14 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
     Implements the AbstractBaseAPIClient and talks to the google books
     api for querying and finding books.
 
-    :return self: **GoogleBooksAPIClient<self>**
+    :param title: str
+    :param author: str
+    :param max_results: int
+    :param start_index: int
+    :param language_code: str
+    :param fields: tuple
+
+    :return self: **GoogleBooksAPIClient**
     """
 
     def __init__(self,
@@ -73,14 +80,6 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
         language_code='',
         fields=('authors', 'title', 'industryIdentifiers'),
     ):
-        """
-        :param: title: str
-        :param: author: str
-        :param: max_results: int
-        :param: start_index: int
-        :param: language_code: str
-        :param: fields: tuple
-        """
         self.title = title
         self.author = author
         self.max_results = max_results
