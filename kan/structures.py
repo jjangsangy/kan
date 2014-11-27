@@ -73,13 +73,13 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
     """
 
     def __init__(self,
-        title='',
-        author='',
-        max_results=10,
-        start_index=0,
-        language_code='',
-        fields=('authors', 'title', 'industryIdentifiers'),
-    ):
+                 title='',
+                 author='',
+                 max_results=10,
+                 start_index=0,
+                 language_code='',
+                 fields=tuple(),
+        ):
         self.title = title
         self.author = author
         self.max_results = max_results
@@ -106,9 +106,10 @@ class GoogleBooksAPIClient(AbstractBaseAPIClient):
             'langRestrict': self.language_code,
         })
 
+        # Optimizes amount of data requested
         fieldstring = 'fields={prefix}({fields})'.format(
             prefix='/'.join(['items', 'volumeInfo']),
-            fields=','.join(self.fields),
+            fields=','.join(('authors', 'title', 'industryIdentifiers') + self.fields),
         )
 
         return '&'.join(['?'.join([base, params]), fieldstring])

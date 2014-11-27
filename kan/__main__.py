@@ -95,6 +95,7 @@ def main():
         author=args.author,
         max_results=args.max,
         language_code=args.language,
+        fields=('title', 'authors', 'imageLinks', 'categories', 'description'),
     )
 
     if args.verbose:
