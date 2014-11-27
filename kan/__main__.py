@@ -99,7 +99,9 @@ def main():
     )
 
     if args.verbose:
-        print('Request URL:\n', query.url, '\n')
+        print('Request URL:')
+        print(query.url)
+        print(query.__dict__)
 
     # Temporary Display Interface
     books = query.json.get('items', None)
