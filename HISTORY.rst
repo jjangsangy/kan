@@ -3,6 +3,13 @@
 Release History
 ===============
 
+0.0.2
+-----
+- Bug fixes and speed improvements. More compact interface
+- Book models update
+- Completed Backend API for Google Books
+- Added verbose flag
+
 0.0.1
 -----
 - Bug Fixes

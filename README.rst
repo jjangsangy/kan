@@ -12,7 +12,7 @@ Installation
 Install from PyPi
 -----------------
 
-.. code-block:: sh
+.. code:: sh
 
     $ pip install kan
 
@@ -21,13 +21,13 @@ From Source
 
 To get the latest version to try out, clone the github repo.
 
-.. code-block:: sh
+.. code:: sh
 
     $ git clone https://github.com/jjangsangy/kan.git
 
 Use ``setup.py`` to install
 
-.. code-block:: sh
+.. code:: sh
 
     # For Python 2.x Install
     $ python setup.py install
@@ -38,7 +38,7 @@ Use ``setup.py`` to install
 Usage
 =====
 
-.. code-block:: sh
+.. code:: sh
 
     # Print Out Help Instructions
     $ kan -h
@@ -90,7 +90,7 @@ top 3 matches.
 
 Search more generally and tweak your search parameters.
 
-.. code-block:: sh
+.. code:: sh
 
     $ kan --language ko --max 5 author 'J. K. Rowling' --top
 
