@@ -37,10 +37,7 @@ class TestStructures(unittest.TestCase):
             'fields=items/volumeInfo(authors,title,industryIdentifiers,title,authors,imageLinks,categories,description)',
         ]
         long_url = '?'.join([base, '&'.join(params)])
-        self.assertEqual(
-            self.harry_potter.url,
-            long_url,
-        )
+        self.assertEqual(self.harry_potter.url, long_url)
 
     def test_json(self):
         self.assertIsInstance(self.harry_potter.json, dict)
