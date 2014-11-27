@@ -28,9 +28,18 @@ class TestStructures(unittest.TestCase):
         )
 
     def test_url(self):
+        base = 'https://www.googleapis.com/books/v1/volumes'
+        params = [
+            'q=%22intitle%3AHarry+Potter+and+the+Sorcerers+Stone%22%2B%22inauthor%3AJ.+K.+Rowling%22',
+            'langRestrict=en',
+            'startIndex=0',
+            'maxResults=10',
+            'fields=items/volumeInfo(authors,title,industryIdentifiers,title,authors,imageLinks,categories,description)',
+        ]
+        long_url = '?'.join([base, '&'.join(params)])
         self.assertEqual(
             self.harry_potter.url,
-            'https://www.googleapis.com/books/v1/volumes?q=%22intitle%3AHarry+Potter+and+the+Sorcerers+Stone%22%2B%22inauthor%3AJ.+K.+Rowling%22&langRestrict=en&startIndex=0&maxResults=10&fields=items/volumeInfo(authors,title,industryIdentifiers,title,authors,imageLinks,categories,description)'
+            long_url,
         )
 
     def test_json(self):
